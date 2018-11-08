@@ -83,11 +83,53 @@ void setup() {
  
  
 void loop() {
+  display.clearDisplay();
   display.drawBitmap(0, 0, ullr1, 51, 29, WHITE);
-  //if (! digitalRead(BUTTON_A)) display.print("A");
-  //if (! digitalRead(BUTTON_B)) display.print("B");
-  //if (! digitalRead(BUTTON_C)) display.print("C");
-  delay(10);
-  yield();
+  //yield();
   display.display();
+  
+  delay(500);
+  
+  display.clearDisplay();
+  display.drawBitmap(0, 0, ullr2, 51, 29, WHITE);
+  //yield();
+  display.display();
+  
+  delay(500);
+  
+  display.clearDisplay();
+  display.drawBitmap(0, 0, ullr3, 51, 29, WHITE);
+  //yield();
+  display.display();
+
+  delay(500);
+
+  display.clearDisplay();
+  display.drawBitmap(0, 0, ullr4, 51, 29, WHITE);
+  //yield();
+  display.display();
+
+  delay(500);
+
+  display.clearDisplay();
+  display.drawBitmap(0, 0, ullr5, 51, 29, WHITE);
+  //yield();
+  display.display();
+
+  delay(500);
+
+  display.clearDisplay();
+  display.drawBitmap(0, 0, ullr6, 51, 29, WHITE);
+  //yield();
+  display.display();
+
+  delay(500);
+
+  display.clearDisplay();
+  display.drawBitmap(0, 0, ullr7, 51, 29, WHITE);
+  //yield();
+  display.display();
+
+  delay(1000);
+  
 }
