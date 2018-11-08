@@ -2,7 +2,8 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
- 
+#include "graphics.h"
+
 Adafruit_SSD1306 display = Adafruit_SSD1306();
  
 #if defined(ESP8266)
@@ -65,8 +66,9 @@ void setup() {
   pinMode(BUTTON_A, INPUT_PULLUP);
   pinMode(BUTTON_B, INPUT_PULLUP);
   pinMode(BUTTON_C, INPUT_PULLUP);
+
  
-  // text display tests
+/*  // text display tests
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor(0,0);
@@ -76,13 +78,15 @@ void setup() {
   display.println("Sending val #0");
   display.setCursor(0,0);
   display.display(); // actually display all of the above
+  */
 }
  
  
 void loop() {
-  if (! digitalRead(BUTTON_A)) display.print("A");
-  if (! digitalRead(BUTTON_B)) display.print("B");
-  if (! digitalRead(BUTTON_C)) display.print("C");
+  display.drawBitmap(0, 0, ullr1, 51, 29, WHITE);
+  //if (! digitalRead(BUTTON_A)) display.print("A");
+  //if (! digitalRead(BUTTON_B)) display.print("B");
+  //if (! digitalRead(BUTTON_C)) display.print("C");
   delay(10);
   yield();
   display.display();

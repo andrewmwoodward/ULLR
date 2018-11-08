@@ -1,3 +1,3 @@
 # ULLR
 
-A skiing tracker companion device.
+A skiing tracker companion device. (early development)
