@@ -17,7 +17,10 @@ Adafruit_SSD1306 display = Adafruit_SSD1306();
 #endif
 
 // create a pointer array so that the bitmaps can be called in sequence easily
-const unsigned char* animation[8] = {ullr1, ullr2, ullr3, ullr3, ullr4, ullr5, ullr6, ullr7};
+const unsigned char* animation[7] = {ullr1, ullr2, ullr3, ullr4, ullr5, ullr6, ullr7};
+
+const char *dataLabelString[5] = {"Jump","360", "540", "Moguls", "Backflip"};
+
  
 void setup() {  
   Serial.begin(9600);
@@ -44,21 +47,49 @@ void setup() {
   pinMode(BUTTON_B, INPUT_PULLUP);
   pinMode(BUTTON_C, INPUT_PULLUP);
 
- 
   // text display setup (not sure if this needs to be called after clearDisplay in loop)
   display.setTextSize(1);
   display.setTextColor(WHITE);
 }
  
+int dataLabelNum = 0;
+bool isRecording = false;
  
 void loop() {
-  for(int i=0; i<8; i++){
+  for(int i=0; i<7; i++){
     display.clearDisplay();
     display.drawBitmap(0, 1, animation[i], 51, 29, WHITE);
-    display.setCursor(60,10);
-    display.print("Testing ");
-    display.print(i);
+    
+    display.setCursor(60,2);
+    if (! digitalRead(BUTTON_A)){
+      dataLabelNum++;
+      if(dataLabelNum==5) dataLabelNum = 0; // ensure it wraps around
+    }
+    display.print(dataLabelString[dataLabelNum]);
+
+    display.setCursor(60,12);
+    if (! digitalRead(BUTTON_B)){
+      if(isRecording){
+        display.print("Start");
+        isRecording = false;  
+      }else{
+        display.print("Stop REC");
+        isRecording = true;  
+      }
+    }else{
+      if(isRecording){
+        display.print("Stop REC");
+      }else{
+        display.print("Start");
+      }
+    }
+    
+    display.setCursor(60,22);
+    display.print("IMU data");
+    
     display.display();
-    delay(500); 
+    
+    
+    delay(100); 
   }
 }
