@@ -23,6 +23,7 @@ MPU9250 IMU(Wire,0x68);
 
 // create a pointer array so that the bitmaps can be called in sequence easily
 const unsigned char* animation[7] = {ullr1, ullr2, ullr3, ullr4, ullr5, ullr6, ullr7};
+const unsigned char* animation2[12] = {jump1, jump2, jump3, jump4, jump5, jump6, jump7, jump8, jump9, jump10, jump11, jump12};
 
 const char *dataLabelString[5] = {"Jump","360", "540", "Moguls", "Backflip"};
 
@@ -151,4 +152,87 @@ void loop() {
     
     delay(100); 
   }
+
+
+  for(int i=0; i<12; i++){
+    display.clearDisplay();
+    display.drawBitmap(0, 1, animation2[i], 51, 29, WHITE);
+    
+    display.setCursor(60,2);
+    if (! digitalRead(BUTTON_A)){
+      dataLabelNum++;
+      if(dataLabelNum==5) dataLabelNum = 0; // ensure it wraps around
+    }
+    display.print(dataLabelString[dataLabelNum]);
+
+    display.setCursor(60,12);
+    if (! digitalRead(BUTTON_B)){
+      if(isRecording){
+        display.print("Start");
+        isRecording = false;  
+      }else{
+        display.print("Stop REC");
+        isRecording = true;  
+      }
+    }else{
+      if(isRecording){
+        display.print("Stop REC");
+      }else{
+        display.print("Start");
+      }
+    }
+    
+
+    // last line of displays IMU data
+    display.setCursor(60,22);
+    IMU.readSensor();
+
+    char letter[5];
+    int value1, value2, value3;
+    if(! digitalRead(BUTTON_C)){
+      dataIMUNum++;
+      if(dataIMUNum==3) dataIMUNum = 0;
+    }
+
+    switch(dataIMUNum){
+      case 0:
+        // display the accel data
+        strcpy(letter,"A ");
+        value1 = round(IMU.getAccelX_mss());
+        value2 = round(IMU.getAccelY_mss());
+        value3 = round(IMU.getAccelZ_mss());
+        break;
+      
+      case 1:
+        // display the gyro data
+        strcpy(letter,"G ");
+        value1 = round(IMU.getGyroX_rads());
+        value2 = round(IMU.getGyroY_rads());
+        value3 = round(IMU.getGyroZ_rads());
+        break;
+
+      case 2:
+        // display the magnetometer data
+        strcpy(letter,"M ");
+        value1 = round(IMU.getMagX_uT());
+        value2 = round(IMU.getMagY_uT());
+        value3 = round(IMU.getMagZ_uT());
+        break;
+    }
+    display.print(letter);
+    display.print(value1);
+    display.print(" ");
+    display.print(value2);
+    display.print(" ");
+    display.print(value3);
+    
+    display.display();
+    
+    
+    delay(100); 
+  }
+
+
+
+  
 }
