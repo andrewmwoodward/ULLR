@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <Wire.h>
+#include <string.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "graphics.h"
@@ -106,6 +107,7 @@ void loop() {
     display.setCursor(60,22);
     IMU.readSensor();
 
+    char letter[5];
     int value1, value2, value3;
     if(! digitalRead(BUTTON_C)){
       dataIMUNum++;
@@ -115,6 +117,7 @@ void loop() {
     switch(dataIMUNum){
       case 0:
         // display the accel data
+        strcpy(letter,"A ");
         value1 = round(IMU.getAccelX_mss());
         value2 = round(IMU.getAccelY_mss());
         value3 = round(IMU.getAccelZ_mss());
@@ -122,6 +125,7 @@ void loop() {
       
       case 1:
         // display the gyro data
+        strcpy(letter,"G ");
         value1 = round(IMU.getGyroX_rads());
         value2 = round(IMU.getGyroY_rads());
         value3 = round(IMU.getGyroZ_rads());
@@ -129,12 +133,13 @@ void loop() {
 
       case 2:
         // display the magnetometer data
+        strcpy(letter,"M ");
         value1 = round(IMU.getMagX_uT());
         value2 = round(IMU.getMagY_uT());
         value3 = round(IMU.getMagZ_uT());
         break;
     }
-    
+    display.print(letter);
     display.print(value1);
     display.print(" ");
     display.print(value2);
